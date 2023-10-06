@@ -1,0 +1,935 @@
+@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&family=M+PLUS+1p:wght@100;300;400;500;700;800;900&family=Open+Sans:wght@300;400;500;600;700;800&family=Poppins:wght@700;800;900&display=swap');
+
+$BackGround : #f4f2ee;
+$LightBlue : #0a66c2;
+$DarkBlue : #003cff;
+$Gry : #777;
+
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@mixin flex-space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+@mixin flex-space-around {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+@mixin flex-space-evenly {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+
+
+html,
+body,
+p,
+h1,h2,h3,h4,h5,h6,
+input{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+
+  font-weight: 300;
+}
+a {
+  text-decoration: none;
+  color: unset;
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
+  margin: 0;
+  margin: 0;
+}
+
+.navbar {
+  @include flex-space-between;
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+
+    li {
+      a {
+        text-decoration: none;
+        color: white;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  &:hover .dropdown-content{
+    display: block;
+  }
+
+  a{
+    @include flex-center;
+    flex-direction: column;
+  }
+  
+  .dropdown-content {
+    display: none;
+    // display: block;
+    position: absolute;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    min-width: 100px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 6px;
+    padding: 12px;
+    z-index: 2;
+    bottom: -40px;
+    right: -15px;
+    @media screen and (max-width:768px) {
+      bottom: 40px;
+      box-shadow: 8px 8px 16px 0px rgba(0,0,0,0.2),-8px -8px 16px 0px rgba(0,0,0,0.2);
+    }
+  }
+}
+
+.icons {
+  @include flex-space-between;
+  user-select: none;
+  padding: 10px;
+  div{
+    @include flex-space-around;
+    text-align: center;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 10px;
+    &:hover {
+      background-color: $BackGround;
+    }
+    p {
+      font-weight: 600;
+      padding-left: 3px;
+      font-size: 16px;
+    }
+    @media screen and (max-width: 1199px) {
+      padding: 10px;
+      p {
+        font-size: 14px;
+      }
+      img {
+        width: 18px;
+      } 
+    }
+  }
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  background: #eeeeee;
+  position: relative;
+}
+.img_video {
+  padding: 12px;
+  > img{
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+  }
+  > input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 10px;
+    outline: none;
+    border: 1px solid $Gry;
+    border-radius: 8px;
+  }
+}
+
+.image-upload {
+  > label {
+    cursor: pointer;
+  }
+  > input {
+    display: none;
+  }
+}
+
+.loading {
+  width: 100%;
+  text-align: center;
+  img{
+    width: 80px;
+  }
+}
+
+.center {
+  width: 100%;
+  @include flex-center;
+  img {
+    max-width: 100%;
+  }
+}
+
+// ============================================ signIn page ================================
+.nav {
+  @include flex-space-between;
+  padding: 10px 2rem;
+  .nav_logo {
+    width: 100px;
+    cursor: pointer;
+    img{
+      width: 100%;
+    }
+  }
+  .nav_button {
+    display: flex;
+    gap: 10px;
+  }
+  .nav_button{
+    button{
+      padding: 15px ;
+      border-radius: 30px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+    }
+    .join:hover {
+      background-color: #ebebeb;
+    }
+    .signUp {
+      border: 1px solid $LightBlue;
+      &:hover{
+        background-color: #d0e7ff;
+      }
+    }
+  }
+}
+.signin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  gap: 3rem;
+  @media screen and (max-width : 767px) {
+    flex-direction: column;
+  }
+
+  .signin_content {
+    flex-basis: 50%;
+    h1 {
+      font-size: 30px;
+      padding-bottom: 2rem;
+      line-height: 40px;
+      color: #8F5849;
+    }
+    .signin_content_form {    
+      label {
+        font-size: 16px;
+        font-weight: 500;
+        color: #333;
+      }
+      input {
+        width: 100%;
+        margin: 5px 0 1.5rem 0;
+        padding: 12px;
+        box-sizing: border-box;
+        outline: none;
+        border-radius: 5px;
+        border: 1px solid $Gry;
+        &:focus {
+          border: 2px solid $DarkBlue;
+        }
+      }
+      p {
+        color: $LightBlue;
+        font-size: 16px;
+        font-weight: 500;
+        margin: 1rem 0;
+        cursor: pointer;
+        width: fit-content;
+        &:hover {
+          color: #333;
+          text-decoration: underline;
+        }
+      }
+      a {
+        color: $DarkBlue;
+        text-decoration: none;
+      }
+      .login:hover {
+        color: #333;
+      }
+      button {
+        width: 100%;
+        border-radius: 30px;
+        padding: 12px 0;
+        border: none;
+        background-color: $LightBlue;
+        color: white;
+        font-weight: 500;
+        cursor: pointer;
+        &:hover {
+          background-color: $DarkBlue;
+        }
+      }
+    }
+    .signin_content_line {
+      display: flex;
+      align-items: center;
+      color: $Gry;
+      padding: 1.8rem 0;
+
+      .line {
+        width: 100%;
+        height: 1px;
+        background-color: $Gry;
+      }
+      .or{
+        padding: 0 12px;
+        font-size: 14px;
+        font-weight: 400;
+        color: black;
+      }
+    }
+    .signin_content_google {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap:6px;
+      font-size: 16px;
+      width: 100%;
+      border: 2px solid $Gry;
+      border-radius: 30px;
+      padding: 12px 0;
+      cursor: pointer;
+      &:hover{
+        background-color: #e6e6e6;
+      }
+      p{
+        font-weight: 500;
+      }
+    }
+  }
+  .signin_photo {
+    flex-basis: 50%;
+    img {
+      max-width: 100%;
+    }
+  }
+}
+
+// =========================================== forgotPass page ==============================
+.forgotPass {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  .forgotPass_content{
+    width: 500px;
+    margin-top: 3rem;
+    padding: 1rem;
+    
+    h1 {
+      padding-bottom: 2rem;
+      text-align: center;
+    }
+    input {
+      width: 100%;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 10px;
+      border: 1px solid $Gry;
+      outline: none;
+      &:focus {
+        border: 1px solid $DarkBlue;
+      }
+    }
+    button {
+      width: 100%;
+      padding: 15px;
+      border-radius: 30px;
+      background-color: $LightBlue;
+      color: white;
+      border: none;
+      margin-top: 2rem;
+      cursor: pointer;
+    }
+    .GuidanceMessage {
+      color: $LightBlue;
+      text-align: center;
+      padding: 1rem 0;
+      font-weight: 500;
+    }
+  }
+}
+
+// =============================================== Navbare ===================================
+nav {
+  @include flex-space-between;
+  padding: 0 1rem;
+  gap: 1rem;
+
+
+  .nav_logo {
+    @include flex-center;
+    gap: 10px;
+    padding: 7px 0;
+    @media screen and (max-width:768px) {
+      flex: 1;
+      .input_app {
+        width: 80%;
+      }
+    }
+
+    >img{
+      width: 40px;
+    }
+
+    .input_app {
+      position: relative;
+      img {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        transform: translateY(-50%);
+      }
+      input {
+        background-color: #e9f2fa;
+        border: none;
+        outline: none;
+        font-size: 14px;
+        width: 100%;
+        height: 100%;
+        padding: 7px 40px;
+        border-radius: 6px;
+        @media screen and (max-width:768px) {
+          width: 100%
+        }
+      }
+    }
+    
+    .iconMess {
+      display: none;
+      cursor: pointer;
+      padding: 0 5px;
+      @media screen and (max-width :768px) {
+        display: block;
+      }
+      svg{
+        font-size: 30px;
+      }
+    }
+  }
+
+  .nav_list {
+    @media screen and (max-width:768px) {
+      position: fixed;
+      bottom:0;
+      left: 0;
+      width: 100%;
+      background: white;
+    }
+
+    .nav_links{
+      @include flex-space-evenly;
+
+      .nav_link {
+        padding: 4px 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        @media screen and (max-width :550px) {
+          padding: 5px;
+          &:last-child{
+            display: none;
+          }
+        }
+
+        img {
+          border-radius: 50%;
+          width: 30px;
+          height: 30px;
+        }
+        span {
+          @include flex-center;
+          font-size: 12px;
+          text-align: center;
+          padding-top: 2px;
+          width: fit-content;
+          >img {
+            width: 15px;
+            height: 15px;
+          }
+        }
+      }
+
+      .active {
+        border-bottom: 2px solid black;
+        @media screen and (max-width :768px) {
+          border-bottom: none ;
+          border-top: 2px solid black;
+        }
+      }
+
+      .nav_link:last-child {
+        border-left: 1px solid #dddddd;
+      }
+    }
+  }
+}
+
+// ============================================ Home page ====================================
+.home {
+  background: $BackGround;
+  display: grid;
+  grid-template-areas: "leftHome mainHome rightHome";
+  grid-template-columns: minmax(0, 5fr) minmax(0px, 12fr) minmax(0, 7fr);
+  align-items: start;
+  justify-items: center;
+  padding: 10px 20px;
+  gap: 15px;
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    gap: 10px;
+  }
+}
+
+// ======================================== Left Home components =============================
+.leftHome  {
+  grid-area: leftHome;
+  background: white;
+  border-radius: 10px;
+  border: 2px solid #eeeeee;
+  width: 100%;
+  >img{
+    max-width: 100%;
+    border-radius: 10px 10px 0 0;
+  }
+  .line {
+
+    img {
+      border-radius: 50%;
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      cursor: pointer;
+    }
+  }
+  .user {
+    margin-top: 2rem;
+    padding: 14px;
+    text-align: center;
+    h4{
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      cursor: pointer;
+      &:hover{
+        font-weight: 700;
+        color: $LightBlue;
+      }
+    }
+    p {
+      color: $Gry;
+      font-size: 12px;
+    }
+  }
+  .info {
+    div{
+      cursor: pointer;
+      @include flex-space-between;
+      gap: 10px;
+      padding: 14px 10px;
+      p{
+        color: $Gry;
+        font-size: 16px;
+        font-weight: 600;
+      }
+      span {
+        color: $LightBlue;
+        font-size: 14px;
+        font-weight: 700;
+      }
+      &:hover{
+        background-color: #ebebeb;
+      }
+    }
+  }
+  .myItem {
+    cursor: pointer;
+    display: flex;
+    padding: 12px;
+    p{
+      padding-left: 10px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    &:hover{
+      background-color: #ebebeb;
+    }
+  }
+}
+
+// ======================================== right Home components ============================
+
+.rightHome {
+  grid-area: rightHome;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  .content {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    background: white;
+    border: 2px solid #eeeeee;
+    padding: 14px;
+    .hashtag_title {
+      margin-bottom: 10px;
+      @include flex-space-between;
+      p {
+        font-weight: 600;
+      }
+      img{
+        width: 24px;
+      }
+    }
+    .hashtag {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 0;
+      img {
+        width: 40px;
+        height: 40px;
+        border: 1px solid #dedede;
+        padding: 5px;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      div {
+        cursor: pointer;
+        
+        h4{
+          font-size: 14px;
+          font-weight: 400;
+        }
+        p{
+          color: $Gry;
+          font-size: 12px;
+          padding: 5px 0;
+        }
+        button {
+          border: 1px solid $Gry;
+          border-radius: 30px;
+          padding:4px 15px;
+          color: $Gry;
+          background: transparent;
+          cursor: pointer;
+          &:hover {
+            border: 2px solid $Gry;
+            background: #ebebeb;
+          }
+        }
+      }
+    }
+    p.recommendations {
+      color: $Gry;
+      width: fit-content;
+      padding: 0 8px;
+      margin-top: 10px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      &:hover{
+        background-color: #ebebeb;
+      }
+      img{
+        padding-left: 5px;
+      }
+    }
+  }
+  .photo {
+    margin-top: 5px;
+    border: 2px solid #eeeeee;
+    border-radius: 10px;
+    img {
+      width: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+  }
+
+}
+
+// =============================================== main Home ==================================
+.mainHome {
+  grid-area: mainHome;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  @media screen and (max-width:768px) {
+    order: -1;
+  }
+  .start_post {
+    background: white;
+    border-radius: 10px;
+    border: 2px solid #eeeeee;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    user-select: none;
+    .main_start {
+      @include flex-space-between;
+      gap: 1rem;
+      padding: 14px 14px 0;
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+      }
+      button {
+        width: 100%;
+        outline: none;
+        border-radius: 30px;
+        padding: 18px 20px;
+        border: 1px solid $Gry;
+        outline: none;
+        color: $Gry;
+        background: transparent;
+        text-align: start;
+        cursor: pointer;
+        &:hover{
+          background-color: $BackGround;
+        }
+      }
+    }
+  }
+  .no_post {
+    text-align: center;
+    font-weight: 700;
+    color: #ff582a;
+    padding: 20px 0;
+  }
+  .post {
+    background: white;
+    border-radius: 10px;
+    border: 2px solid #eeeeee;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    .post_title {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 14px 14px 0;
+      user-select: none;
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      .info_user {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        .name {
+          @include flex-space-between;
+          h4 {
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+          }
+          .imgs {
+            height: 30px;
+            img {
+              width: 30px;
+              height: 30px;
+              margin-left: 5px;
+              padding: 3px;
+              cursor: pointer;
+              transition: all ease-in-out 400ms;
+              border-radius: 50%;
+              &:hover {
+                background-color: #dddddd;
+              }
+            }
+          }
+        }
+        p {
+          color: $Gry;
+          font-size: 14px;
+          cursor: pointer;
+          padding-bottom: 3px;
+        }
+      }
+    }
+    .post_content {
+      p{
+        padding: 14px;
+      }
+      .img {
+        // width: 100%;
+        margin: 0 auto;
+        img{
+          object-fit: cover;
+          max-width: 100%;
+          cursor: pointer;
+        }
+      }
+    }
+    .post_react {
+      padding: 7px 14px;
+      user-select: none;
+      @include flex-space-between;
+      div {
+        @include flex-center;
+        img {
+          cursor: pointer;
+          width: 18px;
+        }
+        p {
+          font-size: 14px;
+          font-weight: 400;
+          color: $Gry;
+          cursor: pointer;
+          margin: 0 5px;
+          box-sizing: border-box;
+          &:hover {
+            color: $LightBlue;
+            border-bottom: 1px solid $LightBlue;
+          }
+        };
+      }
+    }
+  }
+}
+
+// ======================================= Create Post components =============================
+.overlay {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7); 
+  z-index: 9999;
+}
+.newPost {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background-color: #ffffff;
+  min-width: 300px;
+  width: 700px;
+  max-height: 95%;
+  border-radius: 10px;
+  .user {
+    @include flex-space-between;
+    padding: 12px;
+    div:first-child {
+      display: flex;
+      align-items: center;
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+      }
+      h4 {
+        padding-left: 12px;
+        font-size: 18px;
+        font-weight: 600;
+      }
+    }
+    div:last-child>img{
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      padding: 5px;
+      cursor: pointer;
+      &:hover {
+        background-color: #dddddd;
+      }
+    }
+  }
+  textarea {
+    width: 100%;
+    outline: none;
+    border: none;
+    resize: none;
+    padding: 20px;
+    font-size: 16px;
+    line-height: 30px;
+    height: auto;
+    box-sizing: border-box;
+  }
+  .buttons {
+    @include flex-space-between;
+    padding: 7px 12px;
+  }
+  button {
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    margin-right: 10px;
+    &:hover {
+      background-color: #dddddd;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  button.post {
+    padding: 8px 20px;
+    background-color: $LightBlue;
+    width: fit-content;
+    border-radius: 20px;
+    color: white;
+    &:hover {
+      background-color: $DarkBlue;
+    }
+  }
+  button[disabled]{
+    border: 1px solid #999999;
+    background-color: #cccccc !important;
+    color: #666666;
+    cursor:not-allowed;
+  }
+}
