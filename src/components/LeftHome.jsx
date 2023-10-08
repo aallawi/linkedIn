@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import { getUserAuth } from "../Redux/action/allFun";
 
-const LeftHome = ({ user }) => {
+const LeftHome = ({ user, getUserAuth }) => {
+  useEffect(() => {
+    getUserAuth();
+  }, [user]);
+
   return (
     <div className="leftHome">
       <img src="/src/assets/card-bg.svg" alt="" />
@@ -13,7 +18,8 @@ const LeftHome = ({ user }) => {
         )}
       </div>
       <div className="user">
-        <h4>Welcome, {user ? user.displayName : "there!"}</h4>
+        {user ? <h4>Welcome, {user.displayName}</h4> : <h4>Welcome,there!</h4>}
+        {/* <h4>Welcome, {user ? user.displayName : "there!"}</h4> */}
         <p>{user ? user.email : ""}</p>
       </div>
       <div className="line" />
@@ -43,5 +49,10 @@ const mapStateToProps = (state) => {
     user: state.userState.user,
   };
 };
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getUserAuth: () => dispatch(getUserAuth()),
+  };
+};
 
-export default connect(mapStateToProps)(LeftHome);
+export default connect(mapStateToProps, mapDispatchToProps)(LeftHome);

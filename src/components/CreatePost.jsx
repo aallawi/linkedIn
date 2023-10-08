@@ -1,12 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Timestamp } from "firebase/firestore";
 import { addPostAPI } from "../Redux/action/allFun";
 import ReactPlayer from "react-player";
+import he from "he";
 
 const CreatePost = ({ isModal_Open, toggle_Modal, user, addPost }) => {
   // Text
   const [text_Post, setText_Post] = useState("");
+  const [text_Type, setText_Type] = useState("");
 
   // image
   const [image_Post, setImage_Post] = useState("");
@@ -63,6 +65,7 @@ const CreatePost = ({ isModal_Open, toggle_Modal, user, addPost }) => {
     const Post = {
       User: user,
       Text: text_Post,
+      TextType: text_Type,
       Image: image_Post,
       VideoLink: inputVideo_Value,
       Date: Timestamp.now(),
@@ -70,6 +73,24 @@ const CreatePost = ({ isModal_Open, toggle_Modal, user, addPost }) => {
     addPost(Post);
     console.log(Post);
     handle_Close();
+  };
+
+  // handel text post
+  const handleInputText = (e) => {
+    setText_Post(e.target.value);
+
+    const inputValue = e.target.value;
+    const decodedText = he.decode(inputValue);
+
+    const isArabic = /[\u0600-\u06FF]/.test(decodedText);
+    const isEnglish = /^[A-Za-z0-9\s]+$/.test(decodedText);
+
+    if (isArabic) {
+      setText_Type("arabic");
+    } else {
+      setText_Type("");
+    }
+    console.log("نوع التكست", text_Type);
   };
 
   return (
@@ -98,7 +119,7 @@ const CreatePost = ({ isModal_Open, toggle_Modal, user, addPost }) => {
               placeholder="What do you want to talk about?"
               autoFocus={true}
               value={text_Post}
-              onChange={(e) => setText_Post(e.target.value)}
+              onChange={(e) => handleInputText(e)}
             />
 
             <div className="img_video">

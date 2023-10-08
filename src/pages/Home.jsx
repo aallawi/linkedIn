@@ -10,6 +10,8 @@ import RightHome from "../components/RightHome";
 import Navbar from "../components/Navbar";
 import CreatePost from "../components/CreatePost";
 import ReactPlayer from "react-player";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const Home = ({ user, posts, getUserAuth, loading, getPosts, deletePost }) => {
   const [isModal_Open, setIsModal_Open] = useState(false);
@@ -21,6 +23,58 @@ const Home = ({ user, posts, getUserAuth, loading, getPosts, deletePost }) => {
 
   const toggle_Modal = () => {
     setIsModal_Open(!isModal_Open);
+  };
+
+  const calculateTimesPassed = (date) => {
+    const currentDate = new Date();
+    const timeDifferenceInMilliseconds = currentDate - date;
+
+    const daysPassed = Math.floor(
+      timeDifferenceInMilliseconds / (1000 * 60 * 60 * 24)
+    );
+
+    if (daysPassed === 0) {
+      const hoursPassed = Math.floor(
+        timeDifferenceInMilliseconds / (1000 * 60 * 60)
+      );
+      if (hoursPassed < 1) {
+        const totalMinutesPassed = Math.floor(
+          timeDifferenceInMilliseconds / (1000 * 60)
+        );
+        if (totalMinutesPassed == 0) {
+          return "now";
+        }
+        return totalMinutesPassed + " min";
+      } else {
+        return hoursPassed + " h";
+      }
+    } else if (daysPassed < 3) {
+      return daysPassed + " d";
+    } else {
+      return date.toLocaleDateString();
+    }
+  };
+
+  // handle Alert and delete post
+  const handleAlert = (user, post) => {
+    confirmAlert({
+      title: "Delete Post",
+      message: "Are you sure you want to delete this post?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            deletePost(user.email, post.author.User_Email, post.id);
+          },
+        },
+        {
+          label: "No",
+          onClick: () => {
+            // Handle "No" action here
+          },
+        },
+      ],
+    });
   };
 
   return (
@@ -68,8 +122,8 @@ const Home = ({ user, posts, getUserAuth, loading, getPosts, deletePost }) => {
               posts.map((post, index) => (
                 <div className="post" key={index}>
                   <div className="post_title">
-                    {user && user.photoURL ? (
-                      <img src={user.photoURL} />
+                    {post.author.User_Image && post.author.User_Image ? (
+                      <img src={post.author.User_Image} />
                     ) : (
                       <img src="/src/assets/user.svg" alt="user" />
                     )}
@@ -79,24 +133,26 @@ const Home = ({ user, posts, getUserAuth, loading, getPosts, deletePost }) => {
                         <div className="imgs">
                           <img src="/src/assets/post-dots.svg" alt="3 dots" />
                           <img
-                            onClick={() =>
-                              deletePost(
-                                user.email,
-                                post.author.User_Email,
-                                post.id
-                              )
-                            }
+                            onClick={() => handleAlert(user, post)}
                             src="/src/assets/post_cross.svg"
                             alt="delete"
                           />
                         </div>
                       </div>
                       <p>{post.author.User_Email}</p>
-                      <p>{post.PostDate.toDate().toLocaleDateString()}</p>
+
+                      <div className="date">
+                        <p>{calculateTimesPassed(post.PostDate.toDate())} </p>
+
+                        <img src="/src/assets/dot.svg" alt="" />
+                        <img src="/src/assets/world.svg" alt="" />
+                      </div>
                     </div>
                   </div>
                   <div className="post_content">
-                    <p>{post.PostText}</p>
+                    <p className={post.TextType == "arabic" ? "arabic" : ""}>
+                      {post.PostText}
+                    </p>
                     {post.PostImage && !post.VideoLink ? (
                       <div className="center">
                         <img src={post.PostImage} alt="post image" />

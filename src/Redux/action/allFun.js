@@ -18,6 +18,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { v4 } from "uuid";
+import { toast } from "react-toastify";
 
 // sign in  [ Google ]
 export function signInWithGoogleAPI() {
@@ -83,14 +84,6 @@ export function getUserAuth() {
     auth.onAuthStateChanged(async (user) => {
       if (user) {
         dispatch(setUser(user));
-        // const userData = {
-        //   uid: user.uid,
-        //   email: user.email,
-        //   name: user.displayName,
-        //   image: user.photoURL,
-        // };
-        // console.log(userData);
-        // localStorage.setItem("userData", JSON.stringify(userData));
       }
     });
   };
@@ -156,6 +149,7 @@ export function addPostAPI(Post) {
               },
               PostDate: Post.Date,
               PostText: Post.Text,
+              TextType: Post.TextType,
               PostImage: downloadURl,
               VideoLink: Post.VideoLink,
               Likes: Math.floor(Math.random() * 100),
@@ -176,6 +170,7 @@ export function addPostAPI(Post) {
         },
         PostDate: Post.Date,
         PostText: Post.Text,
+        TextType: Post.TextType,
         PostImage: Post.Image,
         VideoLink: Post.VideoLink,
         Likes: Math.floor(Math.random() * 100),
@@ -193,6 +188,7 @@ export function addPostAPI(Post) {
         },
         PostDate: Post.Date,
         PostText: Post.Text,
+        TextType: Post.TextType,
         PostImage: Post.Image,
         VideoLink: Post.VideoLink,
         Likes: Math.floor(Math.random() * 100),
@@ -209,21 +205,44 @@ export function deletePostAPI(userNow, userPublisher, postID) {
   return async (dispatch) => {
     dispatch(setLoading(true));
 
-    // console.log("userNow", userNow);
-    // console.log("userPublisher", userPublisher);
-    // console.log("postID", postID);
-
     if (userNow === userPublisher) {
       const docRef = doc(db, "Posts", postID);
       deleteDoc(docRef)
         .then(() => {
-          console.log("post Deleted Successfully.");
+          toast.success("Delete Post Successful.", {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
         })
         .catch((error) => {
-          console.error(`Deleting Post Failed : ${error}`);
+          toast.error(`Deleting Post Failed - ${error}`, {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
         });
     } else {
-      alert("مينفعش تحذف بوست مش بتاعك يا صاحبي");
+      toast.error("Sorry, You can only delete your posts.", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
 
     dispatch(setLoading(false));
