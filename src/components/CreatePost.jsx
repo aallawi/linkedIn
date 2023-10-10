@@ -1,11 +1,15 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Timestamp } from "firebase/firestore";
 import { addPostAPI } from "../Redux/action/allFun";
+import images from "../constants/images";
 import ReactPlayer from "react-player";
 import he from "he";
 
-const CreatePost = ({ isModal_Open, toggle_Modal, user, addPost }) => {
+const CreatePost = ({ isModal_Open, toggle_Modal }) => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.userState.user);
+
   // Text
   const [text_Post, setText_Post] = useState("");
   const [text_Type, setText_Type] = useState("");
@@ -70,8 +74,7 @@ const CreatePost = ({ isModal_Open, toggle_Modal, user, addPost }) => {
       VideoLink: inputVideo_Value,
       Date: Timestamp.now(),
     };
-    addPost(Post);
-    console.log(Post);
+    dispatch(addPostAPI(Post));
     handle_Close();
   };
 
@@ -87,10 +90,9 @@ const CreatePost = ({ isModal_Open, toggle_Modal, user, addPost }) => {
 
     if (isArabic) {
       setText_Type("arabic");
-    } else {
-      setText_Type("");
+    } else if (isEnglish) {
+      setText_Type("english");
     }
-    console.log("نوع التكست", text_Type);
   };
 
   return (
@@ -100,16 +102,11 @@ const CreatePost = ({ isModal_Open, toggle_Modal, user, addPost }) => {
           <div className="newPost">
             <div className="user">
               <div>
-                {user && user.photoURL ? (
-                  <img src={user.photoURL} />
-                ) : (
-                  <img src="/src/assets/user.svg" alt="user" />
-                )}
-
-                {<h4>{user ? user.displayName : "User Name"}</h4>}
+                <img src={user?.photoURL || images.userImg} alt="" />
+                <h4>{user?.displayName || "User Name"}</h4>
               </div>
               <div onClick={handle_Close}>
-                <img src="/src/assets/close-icon.svg" alt="" />
+                <img src={images.closeIcon} alt="close" />
               </div>
             </div>
 
@@ -124,7 +121,7 @@ const CreatePost = ({ isModal_Open, toggle_Modal, user, addPost }) => {
 
             <div className="img_video">
               {image_Post && (
-                <img src={URL.createObjectURL(image_Post)} alt="img" />
+                <img src={URL.createObjectURL(image_Post)} alt="imge post" />
               )}
               {inputVideo_Display && (
                 <>
@@ -191,19 +188,4 @@ const CreatePost = ({ isModal_Open, toggle_Modal, user, addPost }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.userState.user,
-
-    posts: state.postState.posts,
-    loading: state.postState.loading,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addPost: (Post) => dispatch(addPostAPI(Post)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);
+export default CreatePost;

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { auth } from "../../firebase";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import images from "../constants/images";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const ForgotPassword = () => {
     <>
       <div className="nav">
         <div className="nav_logo">
-          <img src="/src/assets/login-logo.svg" alt="logo" />
+          <img src={images.loginLogo} alt="logo" />
         </div>
         <div className="nav_button">
           <button className="join">join Now</button>

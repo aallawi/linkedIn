@@ -412,7 +412,7 @@ nav {
     padding: 7px 0;
     @media screen and (max-width:768px) {
       flex: 1;
-      .input_app {
+      .nav_logo_input {
         width: 80%;
       }
     }
@@ -421,7 +421,7 @@ nav {
       width: 40px;
     }
 
-    .input_app {
+    .nav_logo_input {
       position: relative;
       img {
         position: absolute;
@@ -445,7 +445,7 @@ nav {
       }
     }
     
-    .iconMess {
+    .nav_logo_message {
       display: none;
       cursor: pointer;
       padding: 0 5px;
@@ -458,7 +458,8 @@ nav {
     }
   }
 
-  .nav_list {
+  .nav_links{
+    @include flex-space-evenly;
     @media screen and (max-width:768px) {
       position: fixed;
       bottom:0;
@@ -467,50 +468,45 @@ nav {
       background: white;
     }
 
-    .nav_links{
-      @include flex-space-evenly;
+    .nav_link {
+      padding: 4px 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
 
-      .nav_link {
-        padding: 4px 15px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        cursor: pointer;
-        @media screen and (max-width :550px) {
-          padding: 5px;
-          &:last-child{
-            display: none;
-          }
-        }
-
-        img {
-          border-radius: 50%;
-          width: 30px;
-          height: 30px;
-        }
-        span {
-          @include flex-center;
-          font-size: 12px;
-          text-align: center;
-          padding-top: 2px;
-          width: fit-content;
-          >img {
-            width: 15px;
-            height: 15px;
-          }
-        }
-      }
-
-      .active {
+      &:first-child {
         border-bottom: 2px solid black;
         @media screen and (max-width :768px) {
           border-bottom: none ;
           border-top: 2px solid black;
         }
       }
-
-      .nav_link:last-child {
+      &:last-child {
         border-left: 1px solid #dddddd;
+      }
+      @media screen and (max-width :550px) {
+        padding: 5px;
+        &:last-child{
+          display: none;
+        }
+      }
+
+      img {
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+      }
+      span {
+        @include flex-center;
+        font-size: 12px;
+        text-align: center;
+        padding-top: 2px;
+        width: fit-content;
+        >img {
+          width: 15px;
+          height: 15px;
+        }
       }
     }
   }
@@ -569,7 +565,6 @@ nav {
       margin-bottom: 10px;
       cursor: pointer;
       &:hover{
-        font-weight: 700;
         color: $LightBlue;
       }
     }

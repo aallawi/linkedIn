@@ -1,24 +1,30 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { confirmAlert } from "react-confirm-alert";
 import {
-  deletePostAPI,
   getPostsAPI,
   getUserAuth,
+  deletePostAPI,
 } from "../Redux/action/allFun";
-import { connect } from "react-redux";
 import LeftHome from "../components/LeftHome";
 import RightHome from "../components/RightHome";
 import Navbar from "../components/Navbar";
 import CreatePost from "../components/CreatePost";
 import ReactPlayer from "react-player";
-import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css";
+import images from "../constants/images";
+import { createPost, reactionsPost } from "../constants/data";
 
-const Home = ({ user, posts, getUserAuth, loading, getPosts, deletePost }) => {
+const Home = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.userState.user);
+  const posts = useSelector((state) => state.postState.posts);
+  const loading = useSelector((state) => state.postState.loading);
+
   const [isModal_Open, setIsModal_Open] = useState(false);
 
   useEffect(() => {
-    getPosts();
-    getUserAuth();
+    dispatch(getUserAuth());
+    dispatch(getPostsAPI());
   }, []);
 
   const toggle_Modal = () => {
@@ -64,7 +70,9 @@ const Home = ({ user, posts, getUserAuth, loading, getPosts, deletePost }) => {
         {
           label: "Yes",
           onClick: () => {
-            deletePost(user.email, post.author.User_Email, post.id);
+            dispatch(
+              deletePostAPI(user.email, post.author.User_Email, post.id)
+            );
           },
         },
         {
@@ -85,35 +93,28 @@ const Home = ({ user, posts, getUserAuth, loading, getPosts, deletePost }) => {
         <div className="home">
           {/* left Side */}
           <LeftHome />
-          {/* Posts */}
+
+          {/* All Posts */}
           <div className="mainHome">
             <div className="start_post">
               <div className="main_start">
-                {user && user.photoURL ? (
-                  <img src={user.photoURL} />
-                ) : (
-                  <img src="/src/assets/user.svg" alt="user" />
-                )}
+                <img src={user?.photoURL || images.userImg} alt="User image" />
                 <button onClick={toggle_Modal}>Start a post</button>
               </div>
               <div className="icons">
-                <div onClick={toggle_Modal}>
-                  <img src="/src/assets/photo-icon.svg" alt="" />
-                  <p>Media</p>
-                </div>
-                <div onClick={toggle_Modal}>
-                  <img src="/src/assets/event-icon.svg" alt="" />
-                  <p>Event</p>
-                </div>
-                <div onClick={toggle_Modal}>
-                  <img src="/src/assets/article-icon.svg" alt="" />
-                  <p>Write posts</p>
-                </div>
+                {createPost.map((item, index) => {
+                  return (
+                    <div key={index} onClick={toggle_Modal}>
+                      <img src={item.img} alt={item.title} />
+                      <p>{item.title}</p>
+                    </div>
+                  );
+                })}
               </div>
             </div>
             {loading && (
               <div className="loading">
-                <img src="/src/assets/loader.svg" alt="loading" />
+                <img src={images.loading} alt="loading" />
               </div>
             )}
             {posts.length <= 0 ? (
@@ -122,19 +123,18 @@ const Home = ({ user, posts, getUserAuth, loading, getPosts, deletePost }) => {
               posts.map((post, index) => (
                 <div className="post" key={index}>
                   <div className="post_title">
-                    {post.author.User_Image && post.author.User_Image ? (
-                      <img src={post.author.User_Image} />
-                    ) : (
-                      <img src="/src/assets/user.svg" alt="user" />
-                    )}
+                    <img
+                      src={post?.author.User_Image || images.userImg}
+                      alt="user Image"
+                    />
                     <div className="info_user">
                       <div className="name">
                         <h4>{post.author.User_Name}</h4>
                         <div className="imgs">
-                          <img src="/src/assets/post-dots.svg" alt="3 dots" />
+                          <img src={images.dots} alt="dots" />
                           <img
                             onClick={() => handleAlert(user, post)}
-                            src="/src/assets/post_cross.svg"
+                            src={images.cross}
                             alt="delete"
                           />
                         </div>
@@ -144,8 +144,8 @@ const Home = ({ user, posts, getUserAuth, loading, getPosts, deletePost }) => {
                       <div className="date">
                         <p>{calculateTimesPassed(post.PostDate.toDate())} </p>
 
-                        <img src="/src/assets/dot.svg" alt="" />
-                        <img src="/src/assets/world.svg" alt="" />
+                        <img src={images.dot} alt="dot" />
+                        <img src={images.world} alt="world" />
                       </div>
                     </div>
                   </div>
@@ -166,9 +166,8 @@ const Home = ({ user, posts, getUserAuth, loading, getPosts, deletePost }) => {
 
                   <div className="post_react">
                     <div>
-                      <img src="/src/assets/like.svg" alt="" />
-                      <img src="/src/assets/heart.svg" alt="" />
-                      {/* <p>Ahmed Allawi and {post.Likes} others</p> */}
+                      <img src={images.likeReacion} alt="like reaction" />
+                      <img src={images.heartReacion} alt="heart reaction" />
                       <p>{post.Likes}</p>
                     </div>
                     <div>
@@ -178,28 +177,22 @@ const Home = ({ user, posts, getUserAuth, loading, getPosts, deletePost }) => {
                   </div>
 
                   <div className="line" />
+
                   <div className="icons">
-                    <div>
-                      <img src="/src/assets/like-icon.svg" alt="" />
-                      <p>Like</p>
-                    </div>
-                    <div>
-                      <img src="/src/assets/comment-icon.svg" alt="" />
-                      <p>Comment</p>
-                    </div>
-                    <div>
-                      <img src="/src/assets/share-icon.svg" alt="" />
-                      <p>Repost</p>
-                    </div>
-                    <div>
-                      <img src="/src/assets/send-icon.svg" alt="" />
-                      <p>Send</p>
-                    </div>
+                    {reactionsPost.map((item, index) => {
+                      return (
+                        <div key={index}>
+                          <img src={item.img} alt={item.title} />
+                          <p>{item.title}</p>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               ))
             )}
           </div>
+
           {/* Right Side */}
           <RightHome />
         </div>
@@ -208,22 +201,4 @@ const Home = ({ user, posts, getUserAuth, loading, getPosts, deletePost }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.userState.user,
-
-    posts: state.postState.posts,
-    loading: state.postState.loading,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getUserAuth: () => dispatch(getUserAuth()),
-    getPosts: () => dispatch(getPostsAPI()),
-    deletePost: (userNow, userPublisher, postID) =>
-      dispatch(deletePostAPI(userNow, userPublisher, postID)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;

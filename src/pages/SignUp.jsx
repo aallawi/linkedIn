@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { connect } from "react-redux";
 import {
   signInWithGoogleAPI,
   signInWithEmailAndPassAPI,
 } from "../Redux/action/allFun";
+import images from "../constants/images";
 
-const SignUp = ({ user, signinWithGoogle, signinWithEmailAndPass }) => {
+const SignUp = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.userState.user);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -17,7 +20,7 @@ const SignUp = ({ user, signinWithGoogle, signinWithEmailAndPass }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    signinWithEmailAndPass(name, email, password);
+    dispatch(signInWithEmailAndPassAPI(name, email, password));
   };
 
   useEffect(() => {
@@ -28,7 +31,7 @@ const SignUp = ({ user, signinWithGoogle, signinWithEmailAndPass }) => {
     <>
       <div className="nav">
         <div className="nav_logo">
-          <img src="/src/assets/login-logo.svg" alt="logo" />
+          <img src={images.loginLogo} alt="logo" />
         </div>
         <div className="nav_button">
           <button className="join">join Now</button>
@@ -89,33 +92,19 @@ const SignUp = ({ user, signinWithGoogle, signinWithEmailAndPass }) => {
 
           <button
             className="signin_content_google"
-            onClick={() => signinWithGoogle()}
+            onClick={() => dispatch(signInWithGoogleAPI())}
           >
-            <img src="/src/assets/google.svg" alt="google logo" />
+            <img src={images.google} alt="google logo" />
             <p>Sign in with Google</p>
           </button>
         </div>
 
         <div className="signin_photo">
-          <img src="/src/assets/SignPhoto.svg" alt="SignPhoto" />
+          <img src={images.SignPhoto} alt="SignPhoto" />
         </div>
       </div>
     </>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.userState.user,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    signinWithGoogle: () => dispatch(signInWithGoogleAPI()),
-    signinWithEmailAndPass: (name, email, password) =>
-      dispatch(signInWithEmailAndPassAPI(name, email, password)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default SignUp;

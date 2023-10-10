@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { connect } from "react-redux";
 import { logInWithEmailAndPassAPI } from "../Redux/action/allFun";
+import images from "../constants/images";
 
-const Login = ({ user, loginWithEmailAndPass }) => {
+const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.userState.user);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,7 +15,7 @@ const Login = ({ user, loginWithEmailAndPass }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    loginWithEmailAndPass(email, password);
+    dispatch(logInWithEmailAndPassAPI(email, password));
   };
 
   useEffect(() => {
@@ -23,7 +26,7 @@ const Login = ({ user, loginWithEmailAndPass }) => {
     <>
       <div className="nav">
         <div className="nav_logo">
-          <img src="/src/assets/login-logo.svg" alt="logo" />
+          <img src={images.loginLogo} alt="logo" />
         </div>
         <div className="nav_button">
           <button className="join">join Now</button>
@@ -69,24 +72,11 @@ const Login = ({ user, loginWithEmailAndPass }) => {
         </div>
 
         <div className="signin_photo">
-          <img src="/src/assets/SignPhoto.svg" alt="SignPhoto" />
+          <img src={images.SignPhoto} alt="SignPhoto" />
         </div>
       </div>
     </>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.userState.user,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loginWithEmailAndPass: (email, password) =>
-      dispatch(logInWithEmailAndPassAPI(email, password)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;
