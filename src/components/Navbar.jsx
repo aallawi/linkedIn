@@ -33,7 +33,12 @@ const Navbar = () => {
 
         <li className="nav_link">
           <div className="dropdown">
-            <img src={user?.photoUrl || images.userImg} alt="user image" />
+            {user?.photoURL ? (
+              <img src={user?.photoURL} alt="user image" />
+            ) : (
+              <img src={images.userImg} alt="user image" />
+            )}
+
             <span>
               Me
               <img src={images.downIcon} alt="" />

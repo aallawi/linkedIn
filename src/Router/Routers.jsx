@@ -6,6 +6,8 @@ import SignUp from "../pages/SignUp";
 import Login from "../pages/Login";
 import PrivetRoute from "./PrivetRoute";
 import ForgotPassword from "../pages/ForgotPassword";
+import UserPosts from "../pages/email/UserPosts";
+import PostDetails from "../pages/post/PostDetails";
 
 const Routers = () => {
   return (
@@ -16,6 +18,22 @@ const Routers = () => {
           <PrivetRoute>
             <Home />
           </PrivetRoute>
+        }
+      />
+      <Route
+        path="/email/:emailID"
+        element={
+          // <PrivetRoute>
+          <UserPosts />
+          // </PrivetRoute>
+        }
+      />
+      <Route
+        path="/post/:PostID"
+        element={
+          // <PrivetRoute>
+          <PostDetails />
+          // </PrivetRoute>
         }
       />
       <Route path="/Login" element={<Login />} />

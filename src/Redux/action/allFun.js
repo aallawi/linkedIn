@@ -1,5 +1,11 @@
 import { auth, provider, db, storage } from "../../../firebase";
-import { setUser, setLoading, getPosts } from "./action";
+import {
+  setUser,
+  setLoading,
+  getPosts,
+  getOnePost,
+  getPostsByEmail,
+} from "./action";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -16,6 +22,9 @@ import {
   doc,
   getDoc,
   deleteDoc,
+  setDoc,
+  FieldValue,
+  updateDoc,
 } from "firebase/firestore";
 import { v4 } from "uuid";
 import { toast } from "react-toastify";
@@ -121,6 +130,43 @@ export function getPostsAPI() {
   };
 }
 
+// Show Posts By Email
+export function getPostsByEmailAPI(email) {
+  // console.log(email);
+  return (dispatch) => {
+    dispatch(setLoading(true));
+    let all_Posts;
+    const collRef = collection(db, "Posts");
+    const orderedRef = query(collRef, orderBy("PostDate", "desc"));
+    onSnapshot(orderedRef, (snapshot) => {
+      all_Posts = snapshot.docs
+        .filter((doc) => doc.data().author.User_Email == email)
+        .map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+      dispatch(getPostsByEmail(all_Posts));
+      dispatch(setLoading(false));
+    });
+  };
+}
+
+// Show One Post
+export function getOnePostAPI(postID) {
+  return (dispatch) => {
+    dispatch(setLoading(true));
+    let one_Post;
+    const collRef = collection(db, "Posts");
+    const orderedRef = query(collRef);
+    onSnapshot(orderedRef, (snapshot) => {
+      one_Post = snapshot.docs.find((doc) => doc.id === postID);
+      console.log(one_Post.data());
+      dispatch(getOnePost(one_Post.data()));
+      dispatch(setLoading(false));
+    });
+  };
+}
+
 // add Post
 export function addPostAPI(Post) {
   return (dispatch) => {
@@ -147,6 +193,7 @@ export function addPostAPI(Post) {
                 User_Email: Post.User.email,
                 User_Image: Post.User.photoURL,
               },
+              AllComments: [{}],
               PostDate: Post.Date,
               PostText: Post.Text,
               TextType: Post.TextType,
@@ -168,6 +215,7 @@ export function addPostAPI(Post) {
           User_Email: Post.User.email,
           User_Image: Post.User.photoURL,
         },
+        AllComments: [{}],
         PostDate: Post.Date,
         PostText: Post.Text,
         TextType: Post.TextType,
@@ -186,6 +234,7 @@ export function addPostAPI(Post) {
           User_Email: Post.User.email,
           User_Image: Post.User.photoURL,
         },
+        AllComments: [{}],
         PostDate: Post.Date,
         PostText: Post.Text,
         TextType: Post.TextType,
@@ -197,6 +246,32 @@ export function addPostAPI(Post) {
       });
       dispatch(setLoading(false));
     }
+  };
+}
+
+// add Comment
+export function addCommentAPI(PostID, newComment) {
+  console.log(PostID, newComment);
+  return (dispatch) => {
+    // const postRef = db.collection("Posts").doc(PostID);
+    // const postRef = doc(db, "Posts", PostID);
+    // postRef
+    //   .update({ Comments: 999 })
+    //   .then(() => {
+    //     console.log("تم تعديل عدد الكومنات بنجاح!");
+    //   })
+    //   .catch((error) => {
+    //     console.error("حدث خطأ: ", error);
+    //   });
+    // -------------------------------------------
+    // postRef
+    //   .update({ AllComments: FieldValue.arrayUnion(newComment) })
+    //   .then(() => {
+    //     console.log("تم إضافة التعليق بنجاح!");
+    //   })
+    //   .catch((error) => {
+    //     console.error("حدث خطأ: ", error);
+    //   });
   };
 }
 

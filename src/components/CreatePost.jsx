@@ -102,7 +102,7 @@ const CreatePost = ({ isModal_Open, toggle_Modal }) => {
           <div className="newPost">
             <div className="user">
               <div>
-                <img src={user?.photoURL || images.userImg} alt="" />
+                <img src={user?.photoURL || images.userImg} alt="user image" />
                 <h4>{user?.displayName || "User Name"}</h4>
               </div>
               <div onClick={handle_Close}>
@@ -158,7 +158,7 @@ const CreatePost = ({ isModal_Open, toggle_Modal }) => {
                   onClick={() => setInputVideo_Display(false)}
                 >
                   <label htmlFor="file-input">
-                    <img src="/src/assets/share-image.svg" alt="" />
+                    <img src={images.shareImage} alt="share image" />
                   </label>
                   <input
                     id="file-input"
@@ -167,10 +167,10 @@ const CreatePost = ({ isModal_Open, toggle_Modal }) => {
                   />
                 </button>
                 <button onClick={() => setInputVideo_Display(true)}>
-                  <img src="/src/assets/share-video.svg" alt="" />
+                  <img src={images.shareVideo} alt="share video" />
                 </button>
                 <button>
-                  <img src="/src/assets/comment-icon.svg" alt="" />
+                  <img src={images.commentIcon} alt="comment icon" />
                 </button>
               </div>
               <button

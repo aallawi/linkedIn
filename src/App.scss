@@ -665,8 +665,8 @@ nav {
           color: $Gry;
           background: transparent;
           cursor: pointer;
+          font-size: 16px;
           &:hover {
-            border: 2px solid $Gry;
             background: #ebebeb;
           }
         }
@@ -738,7 +738,7 @@ nav {
         background: transparent;
         text-align: start;
         cursor: pointer;
-        &:hover{
+        &:hover {
           background-color: $BackGround;
         }
       }
@@ -750,112 +750,113 @@ nav {
     color: #ff582a;
     padding: 20px 0;
   }
-  .post {
-    background: white;
-    border-radius: 10px;
-    border: 2px solid #eeeeee;
+  
+}
+.post {
+  background: white;
+  border-radius: 10px;
+  border: 2px solid #eeeeee;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  .post_title {
     display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-    .post_title {
+    align-items: center;
+    gap: 15px;
+    padding: 14px 14px 0;
+    user-select: none;
+    img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .info_user {
       display: flex;
-      align-items: center;
-      gap: 15px;
-      padding: 14px 14px 0;
-      user-select: none;
-      img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        cursor: pointer;
-      }
-      .info_user {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        .name {
-          @include flex-space-between;
-          h4 {
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-          }
-          .imgs {
+      flex-direction: column;
+      flex: 1;
+      .name {
+        @include flex-space-between;
+        h4 {
+          font-size: 18px;
+          font-weight: 600;
+          cursor: pointer;
+        }
+        .imgs {
+          height: 30px;
+          img {
+            width: 30px;
             height: 30px;
-            img {
-              width: 30px;
-              height: 30px;
-              margin-left: 5px;
-              padding: 3px;
-              cursor: pointer;
-              transition: all ease-in-out 400ms;
-              border-radius: 50%;
-              &:hover {
-                background-color: #dddddd;
-              }
+            margin-left: 5px;
+            padding: 3px;
+            cursor: pointer;
+            transition: all ease-in-out 400ms;
+            border-radius: 50%;
+            &:hover {
+              background-color: #dddddd;
             }
           }
         }
-        p{
-          color: $Gry;
-          font-size: 14px;
-          padding-top: 3px;
-        }
-        .date {
-          display: flex;
-          align-items: center;
-          height: 22px;
-          p {
-            color: $Gry;
-            font-size: 14px;
-            cursor: pointer;
-          }
-          img {
-            padding-top: 5px;
-            width: 14px;
-            height: 14px;
-          }
-        }
       }
-    }
-    .post_content {
       p{
-        padding: 14px;
+        color: $Gry;
+        font-size: 14px;
+        padding-top: 3px;
       }
-      .img {
-        // width: 100%;
-        margin: 0 auto;
-        img{
-          object-fit: cover;
-          max-width: 100%;
+      .date {
+        display: flex;
+        align-items: center;
+        height: 22px;
+        p {
+          color: $Gry;
+          font-size: 14px;
           cursor: pointer;
+        }
+        img {
+          padding-top: 5px;
+          width: 14px;
+          height: 14px;
         }
       }
     }
-    .post_react {
-      padding: 7px 14px;
-      user-select: none;
-      @include flex-space-between;
-      div {
-        @include flex-center;
-        img {
-          cursor: pointer;
-          width: 18px;
-        }
-        p {
-          font-size: 14px;
-          line-height: 14px;
-          font-weight: 400;
-          color: $Gry;
-          cursor: pointer;
-          margin: 0 5px;
-          box-sizing: border-box;
-          &:hover {
-            color: $LightBlue;
-            border-bottom: 1px solid $LightBlue;
-          }
-        };
+  }
+  .post_content {
+    p{
+      padding: 14px;
+    }
+    .img {
+      // width: 100%;
+      margin: 0 auto;
+      img{
+        object-fit: cover;
+        max-width: 100%;
+        cursor: pointer;
       }
+    }
+  }
+  .post_react {
+    padding: 7px 14px;
+    user-select: none;
+    @include flex-space-between;
+    div {
+      @include flex-center;
+      img {
+        cursor: pointer;
+        width: 18px;
+      }
+      p {
+        font-size: 14px;
+        line-height: 14px;
+        font-weight: 400;
+        color: $Gry;
+        cursor: pointer;
+        margin: 0 5px;
+        box-sizing: border-box;
+        &:hover {
+          color: $LightBlue;
+          border-bottom: 1px solid $LightBlue;
+        }
+      };
     }
   }
 }
@@ -958,5 +959,220 @@ nav {
     background-color: #cccccc !important;
     color: #666666;
     cursor:not-allowed;
+  }
+}
+
+// ======================================= Create Comment ===============================
+.comment {
+  padding: 14px; 
+  @include flex-space-between;
+  gap: 10px;
+  img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  input {
+    width: 100%;
+    outline: none;
+    border-radius: 15px;
+    padding: 10px;
+    border: 2px solid #c6c6c6cd;
+  }
+  button {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: $LightBlue;
+    color: white;
+    cursor: pointer;
+    &:hover {
+      background-color: $DarkBlue;
+    }
+  }
+  div{
+    width: 100%;
+    background-color: #f2f2f2;
+    padding: 12px;
+    border-radius: 10px;
+    h4{
+      font-weight: 600;
+      font-size: 17px;
+      margin-bottom: 12px;
+    }
+    p{
+      font-size: 16px;
+      line-height: 20px;
+    }
+  }
+}
+
+.grid_det {
+  background: $BackGround;
+  display: grid;
+  grid-template-areas: "left_grid right_grid";
+  grid-template-columns: minmax(0, 7fr) minmax(280px, 3fr);
+  align-items: start;
+  justify-items: center;
+  justify-content: center;
+  padding: 10px;
+  gap: 15px;
+  @media (min-width: 1200px) {
+    padding: 10px 8%;
+  }
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    gap: 10px;
+    .rightgrid {
+      width: 100%;
+    }
+  }
+}
+
+.user_posts {
+  width: 100%;
+}
+
+.user_details {
+  border-radius: 10px;
+  position: relative;
+  border:  2px solid #eeeeee;
+  background-color: white;
+  margin-bottom: 10px;
+  img.cover {
+    width: 100%;
+    max-height: 150px;
+    border-radius: 10px 10px 0 0;
+  }
+  .photo {
+    position: relative;
+    img {
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      top: -50%;
+      transform: translateY(-50%);
+      left: 5%;
+      @media screen and (max-width : 550px) {
+        width: 100px;
+        height: 100px;
+      }
+    }
+  }
+  >p {
+    text-align: right;
+    padding: 1rem 10px;
+    span {
+      padding: 10px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all ease 300ms;
+    }
+    :hover {
+      background-color: #dddddd;
+    }
+  }
+  .name {
+    padding: 1rem;
+    img {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+    }
+    h2 {
+      font-size: 30px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      width: fit-content;
+      &:hover {
+        background-color: #ebebeb;
+      }
+    }
+    h6 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      font-weight: 400;
+    }
+    div {
+      padding: 5px 0;
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+      span.address {
+        color: $Gry;
+        font-size: 17px;
+        margin-right: 10px;
+        cursor: pointer;
+        box-sizing: border-box;
+      }
+    }
+    .Contact_info {
+      color: $LightBlue;
+      font-weight: 600;
+      font-size: 17px;
+      width: fit-content;
+      cursor: pointer;
+      box-sizing: border-box;
+      &:hover {
+        border-bottom: 2px solid $LightBlue;
+      }
+    }
+    .mutual {
+      padding: 15px 0;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      img {
+        width: 25px;
+        height: 25px;
+        padding-right: 7px;
+        cursor: pointer;
+      }
+      span {
+        font-weight: 500;
+        cursor: pointer;
+        padding-right: 4px;
+      }
+    }
+    .button {
+      display: flex;
+      gap: 10px;
+      button {
+        padding: 8px 18px;
+        border-radius: 20px;
+        border: none;
+        outline: none;
+        background-color: transparent;
+        cursor: pointer;
+        font-weight: 500;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        box-sizing: border-box;
+        transition: all ease 300ms;
+      }
+      button.message {
+        background-color: $LightBlue;
+        color: white;
+        &:hover {
+          background-color: #004182;
+        }
+      }
+      button.more {
+        border: 1px solid $Gry;
+        color: $Gry;
+        &:hover {
+          background-color: #ebebeb;
+        }
+      }
+    }
   }
 }

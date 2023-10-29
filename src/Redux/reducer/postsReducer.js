@@ -1,8 +1,15 @@
-import { SET_LOADING, GET_POSTS } from "../action/actionTypes";
+import {
+  SET_LOADING,
+  GET_POSTS,
+  GET_ONE_POST,
+  GET_POSTS_BY_EMAIL,
+} from "../action/actionTypes";
 
 export const initialState = {
   loading: false,
   posts: [],
+  postsByEmail: [],
+  onePost: [],
 };
 
 function postsReducer(state = initialState, action) {
@@ -17,6 +24,18 @@ function postsReducer(state = initialState, action) {
       return {
         ...state,
         posts: action.payload,
+      };
+
+    case GET_ONE_POST:
+      return {
+        ...state,
+        onePost: action.payload,
+      };
+
+    case GET_POSTS_BY_EMAIL:
+      return {
+        ...state,
+        postsByEmail: action.payload,
       };
 
     default:

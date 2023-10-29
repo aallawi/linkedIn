@@ -34,6 +34,10 @@ import heartReacion from "../assets/heart.svg";
 import loginLogo from "../assets/login-logo.svg";
 import SignPhoto from "../assets/SignPhoto.svg";
 import google from "../assets/google.svg";
+import shareImage from "../assets/share-image.svg";
+import shareVideo from "../assets/share-video.svg";
+import commentIcon from "../assets/comment-icon.svg";
+import userConect from "../assets/userConect.svg";
 
 export default {
   homeLogo,
@@ -72,4 +76,8 @@ export default {
   loginLogo,
   SignPhoto,
   google,
+  shareImage,
+  shareVideo,
+  commentIcon,
+  userConect,
 };
