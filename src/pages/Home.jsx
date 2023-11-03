@@ -14,6 +14,7 @@ import Navbar from "../components/Navbar";
 import CreatePost from "../components/CreatePost";
 import ReactPlayer from "react-player";
 import images from "../constants/images";
+import Audio from "../components/Audio";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -159,13 +160,20 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-                  <div
-                    className="post_content"
-                    onClick={() => navigate(`/post/${post.id}`)}
-                  >
-                    <p className={post.TextType == "arabic" ? "arabic" : ""}>
+                  <div className="post_content">
+                    <p
+                      onClick={() => navigate(`/post/${post.id}`)}
+                      className={post.TextType == "arabic" ? "arabic" : ""}
+                    >
                       {post.PostText}
                     </p>
+
+                    {post.Record && (
+                      <div className="audio">
+                        <Audio song={post.Record} />
+                      </div>
+                    )}
+
                     {post.PostImage && !post.VideoLink ? (
                       <div className="center">
                         <img src={post.PostImage} alt="post image" />
@@ -192,17 +200,19 @@ const Home = () => {
                   <div className="line" />
 
                   <div className="icons">
-                    {/* 
-                      {reactionsPost.map((item, index) => {
-                        return (
-                          <div key={index}>
-                            <img src={item.img} alt={item.title} />
-                            <p>{item.title}</p>
-                          </div>
-                        );
-                      })} 
-                    */}
-                    <div>
+                    {reactionsPost.map((item, index) => {
+                      return (
+                        <div
+                          key={index}
+                          onClick={() => navigate(`/post/${post.id}`)}
+                        >
+                          <img src={item.img} alt={item.title} />
+                          <p>{item.title}</p>
+                        </div>
+                      );
+                    })}
+
+                    {/* <div>
                       <img src={images.like} alt="Like" />
                       <p>Like</p>
                     </div>
@@ -217,7 +227,7 @@ const Home = () => {
                     <div>
                       <img src={images.send} alt="Send" />
                       <p>Send</p>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               ))

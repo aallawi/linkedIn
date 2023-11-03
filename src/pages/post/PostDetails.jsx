@@ -13,6 +13,7 @@ import { confirmAlert } from "react-confirm-alert";
 import Navbar from "../../components/Navbar";
 import ReactPlayer from "react-player";
 import images from "../../constants/images";
+import Audio from "../../components/Audio";
 
 const PostDetails = () => {
   const { PostID } = useParams();
@@ -49,6 +50,7 @@ const PostDetails = () => {
     TextType,
     PostImage,
     VideoLink,
+    Record,
     Likes,
     Comments,
     Reposts,
@@ -119,7 +121,7 @@ const PostDetails = () => {
     <>
       <Navbar />
 
-      <div className="user_posts">
+      <div className="user_posts details">
         <div className="main_uset_posts">
           <div className="post">
             <div className="post_title">
@@ -156,6 +158,13 @@ const PostDetails = () => {
 
             <div className="post_content">
               <p className={TextType == "arabic" ? "arabic" : ""}>{PostText}</p>
+
+              {Record && (
+                <div className="audio">
+                  <Audio song={Record} />
+                </div>
+              )}
+
               {PostImage && !VideoLink ? (
                 <div className="center">
                   <img src={PostImage} alt="post image" />

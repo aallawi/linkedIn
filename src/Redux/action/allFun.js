@@ -215,17 +215,55 @@ export function addPostAPI(Post) {
           User_Email: Post.User.email,
           User_Image: Post.User.photoURL,
         },
-        AllComments: [{}],
+        AllComments: [],
         PostDate: Post.Date,
         PostText: Post.Text,
         TextType: Post.TextType,
         PostImage: Post.Image,
         VideoLink: Post.VideoLink,
+        Record: Post.Record,
         Likes: Math.floor(Math.random() * 100),
         Comments: Math.floor(Math.random() * 50),
         Reposts: Math.floor(Math.random() * 20),
       });
       dispatch(setLoading(false));
+    } else if (Post.Record) {
+      const storageRef = ref(storage, `Audio/${v4()}`);
+      const uploadRef = uploadBytesResumable(storageRef, Post.Record);
+      uploadRef.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% Done");
+        },
+        (error) => {
+          alert(error);
+        },
+        () => {
+          getDownloadURL(uploadRef.snapshot.ref).then((downloadURl) => {
+            const collRef = collection(db, "Posts");
+            addDoc(collRef, {
+              author: {
+                User_Name: Post.User.displayName,
+                User_Email: Post.User.email,
+                User_Image: Post.User.photoURL,
+              },
+              AllComments: [],
+              PostDate: Post.Date,
+              PostText: Post.Text,
+              TextType: Post.TextType,
+              PostImage: Post.Image,
+              VideoLink: Post.VideoLink,
+              Record: downloadURl,
+              Likes: Math.floor(Math.random() * 100),
+              Comments: Math.floor(Math.random() * 50),
+              Reposts: Math.floor(Math.random() * 20),
+            });
+          });
+          dispatch(setLoading(false));
+        }
+      );
     } else {
       const collRef = collection(db, "Posts");
       addDoc(collRef, {
@@ -234,12 +272,13 @@ export function addPostAPI(Post) {
           User_Email: Post.User.email,
           User_Image: Post.User.photoURL,
         },
-        AllComments: [{}],
+        AllComments: [],
         PostDate: Post.Date,
         PostText: Post.Text,
         TextType: Post.TextType,
         PostImage: Post.Image,
         VideoLink: Post.VideoLink,
+        Record: Post.Record,
         Likes: Math.floor(Math.random() * 100),
         Comments: Math.floor(Math.random() * 50),
         Reposts: Math.floor(Math.random() * 20),

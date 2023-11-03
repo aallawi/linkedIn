@@ -36,7 +36,7 @@ import SignPhoto from "../assets/SignPhoto.svg";
 import google from "../assets/google.svg";
 import shareImage from "../assets/share-image.svg";
 import shareVideo from "../assets/share-video.svg";
-import commentIcon from "../assets/comment-icon.svg";
+import shareRecord from "../assets/share-record.svg";
 import userConect from "../assets/userConect.svg";
 
 export default {
@@ -78,6 +78,6 @@ export default {
   google,
   shareImage,
   shareVideo,
-  commentIcon,
+  shareRecord,
   userConect,
 };

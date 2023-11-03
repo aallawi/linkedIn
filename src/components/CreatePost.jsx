@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Timestamp } from "firebase/firestore";
 import { addPostAPI } from "../Redux/action/allFun";
+import { AudioRecorder } from "react-audio-voice-recorder";
 import images from "../constants/images";
 import ReactPlayer from "react-player";
 import he from "he";
@@ -22,9 +23,19 @@ const CreatePost = ({ isModal_Open, toggle_Modal }) => {
   const [inputVideo_Value, setInputVideo_Value] = useState("");
   const [isValidURL, setIsValidURL] = useState(false);
 
+  // Audio
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordDone, setRecordDone] = useState(false);
+  const [audioTest, setAudioTest] = useState();
+  const [fileUrl, setFileUrl] = useState();
+  const audioRef = useRef(null);
+
   // handle iamge
   const handle_Input_Img_Change = (e) => {
     setInputVideo_Value("");
+    setIsRecording(false);
+    setRecordDone(false);
+    setAudioTest("");
     const image = e.target.files[0];
     if (image === "" || image === undefined) {
       alert(`not an image , the file is a ${typeof image}`);
@@ -47,11 +58,30 @@ const CreatePost = ({ isModal_Open, toggle_Modal }) => {
     }
   };
 
+  // handle record
+  const handle_record = (blob) => {
+    setImage_Post("");
+    let fileName = "name";
+    const url = URL.createObjectURL(blob);
+    setAudioTest(url);
+    setRecordDone(true);
+    const file = new File([blob], fileName, { type: blob.type });
+    setFileUrl(file);
+  };
+  const Recordagain = () => {
+    setAudioTest("");
+    setRecordDone(false);
+  };
+
   // reset all
   const reset_All = () => {
     setText_Post("");
     setImage_Post("");
     setInputVideo_Value("");
+    setInputVideo_Display(false);
+    setIsRecording(false);
+    setRecordDone(false);
+    setAudioTest("");
   };
 
   // handle close
@@ -72,10 +102,12 @@ const CreatePost = ({ isModal_Open, toggle_Modal }) => {
       TextType: text_Type,
       Image: image_Post,
       VideoLink: inputVideo_Value,
+      Record: fileUrl,
       Date: Timestamp.now(),
     };
     dispatch(addPostAPI(Post));
     handle_Close();
+    setAudioTest("");
   };
 
   // handel text post
@@ -148,7 +180,44 @@ const CreatePost = ({ isModal_Open, toggle_Modal }) => {
                 </>
               )}
             </div>
-
+            <div className="center">
+              {isRecording &&
+                (!recordDone ? (
+                  <AudioRecorder
+                    style={{ color: "green" }}
+                    className="recordIcone"
+                    onRecordingComplete={(blob) => handle_record(blob)}
+                    audioTrackConstraints={{
+                      noiseSuppression: true,
+                      echoCancellation: true,
+                    }}
+                    downloadFileExtension="webm"
+                  />
+                ) : (
+                  audioTest && (
+                    <div className="audio_test">
+                      <audio ref={audioRef} controls src={audioTest} />
+                      <div className="audio_button">
+                        <button
+                          className="play"
+                          onClick={() => audioRef.current.play()}
+                        >
+                          Play
+                        </button>
+                        <button
+                          className="pause"
+                          onClick={() => audioRef.current.pause()}
+                        >
+                          Pause
+                        </button>
+                        <button className="again" onClick={Recordagain}>
+                          Recording again
+                        </button>
+                      </div>
+                    </div>
+                  )
+                ))}
+            </div>
             <div className="line" />
 
             <div className="buttons">
@@ -166,11 +235,13 @@ const CreatePost = ({ isModal_Open, toggle_Modal }) => {
                     onChange={handle_Input_Img_Change}
                   />
                 </button>
-                <button onClick={() => setInputVideo_Display(true)}>
+                <button
+                  onClick={() => setInputVideo_Display(!inputVideo_Display)}
+                >
                   <img src={images.shareVideo} alt="share video" />
                 </button>
-                <button>
-                  <img src={images.commentIcon} alt="comment icon" />
+                <button onClick={() => setIsRecording(!isRecording)}>
+                  <img src={images.shareRecord} alt="Record icon" />
                 </button>
               </div>
               <button
