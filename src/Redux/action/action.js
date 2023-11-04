@@ -4,12 +4,20 @@ import {
   GET_POSTS,
   GET_ONE_POST,
   GET_POSTS_BY_EMAIL,
+  SET_USER_TRUE_FALSE,
 } from "./actionTypes";
 
 export const setUser = (user) => {
   return {
     type: SET_USER,
     payload: user,
+  };
+};
+
+export const userTrueOrFalse = (boolean) => {
+  return {
+    type: SET_USER_TRUE_FALSE,
+    payload: boolean,
   };
 };
 

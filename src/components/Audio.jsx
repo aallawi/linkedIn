@@ -64,7 +64,7 @@ const Audio = ({ song }) => {
 
   // ============  control Panel
   const secondsToHms = (seconds) => {
-    if (!seconds) return "00m 00s";
+    if (!seconds) return "0s";
 
     let duration = seconds;
     let hours = duration / 3600;
@@ -75,17 +75,10 @@ const Audio = ({ song }) => {
 
     let sec = parseInt(duration);
 
-    if (sec < 10) {
-      sec = `0${sec}`;
-    }
-    if (min < 10) {
-      min = `0${min}`;
-    }
-
     if (parseInt(hours, 10) > 0) {
       return `${parseInt(hours, 10)}h ${min}m ${sec}s`;
     } else if (min == 0) {
-      return `00m ${sec}s`;
+      return `${sec}s`;
     } else {
       return `${min}m ${sec}s`;
     }

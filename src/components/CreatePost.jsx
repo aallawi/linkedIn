@@ -27,7 +27,7 @@ const CreatePost = ({ isModal_Open, toggle_Modal }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [recordDone, setRecordDone] = useState(false);
   const [audioTest, setAudioTest] = useState();
-  const [fileUrl, setFileUrl] = useState();
+  const [fileUrl, setFileUrl] = useState("");
   const audioRef = useRef(null);
 
   // handle iamge
@@ -82,6 +82,7 @@ const CreatePost = ({ isModal_Open, toggle_Modal }) => {
     setIsRecording(false);
     setRecordDone(false);
     setAudioTest("");
+    setFileUrl("");
   };
 
   // handle close
@@ -105,6 +106,7 @@ const CreatePost = ({ isModal_Open, toggle_Modal }) => {
       Record: fileUrl,
       Date: Timestamp.now(),
     };
+    console.log(Post);
     dispatch(addPostAPI(Post));
     handle_Close();
     setAudioTest("");
@@ -246,7 +248,9 @@ const CreatePost = ({ isModal_Open, toggle_Modal }) => {
               </div>
               <button
                 onClick={create_Post}
-                disabled={!text_Post}
+                disabled={
+                  !text_Post && image_Post == "" && !isValidURL && fileUrl == ""
+                }
                 className="post"
               >
                 post

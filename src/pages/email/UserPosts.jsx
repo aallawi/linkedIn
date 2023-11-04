@@ -11,6 +11,7 @@ import Navbar from "../../components/Navbar";
 import images from "../../constants/images";
 import RightHome from "../../components/RightHome";
 import ReactPlayer from "react-player";
+import Audio from "../../components/Audio";
 
 const UserPosts = () => {
   const { emailID } = useParams();
@@ -175,6 +176,11 @@ const UserPosts = () => {
                 <p className={post.TextType == "arabic" ? "arabic" : ""}>
                   {post.PostText}
                 </p>
+                {post.Record && (
+                  <div className="audio">
+                    <Audio song={post.Record} />
+                  </div>
+                )}
                 {post.PostImage && !post.VideoLink ? (
                   <div className="center">
                     <img src={post.PostImage} alt="post image" />

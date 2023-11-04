@@ -11,11 +11,24 @@ const SignUp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userState.user);
+  const userTrueOrFalse = useSelector(
+    (state) => state.userState.userTrueOrFalse
+  );
+  console.log("user", userTrueOrFalse);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [isSigningIn, setIsSigningIn] = useState(false);
+
+  const handleSignInWithGoogle = () => {
+    dispatch(signInWithGoogleAPI());
+    setTimeout(() => {
+      setIsSigningIn(true);
+    }, 1000);
+  };
+  // console.log("isDisabled", isSigningIn);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -90,13 +103,17 @@ const SignUp = () => {
             <span className="line"></span>
           </div>
 
-          <button
-            className="signin_content_google"
-            onClick={() => dispatch(signInWithGoogleAPI())}
-          >
-            <img src={images.google} alt="google logo" />
-            <p>Sign in with Google</p>
-          </button>
+          {!userTrueOrFalse ? (
+            <button
+              className="signin_content_google"
+              onClick={handleSignInWithGoogle}
+            >
+              <img src={images.google} alt="google logo" />
+              <p>Sign in with Google</p>
+            </button>
+          ) : (
+            <div className="wait_signin">Signing In...</div>
+          )}
         </div>
 
         <div className="signin_photo">

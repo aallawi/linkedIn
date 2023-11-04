@@ -55,23 +55,22 @@ li {
   margin: 0;
 }
 .audio-recorder {
-  width: 65px;
-  border-radius: 50%;
   @include flex-center;
-}
-.audio-recorder {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
   background-color: #ababab;
-  padding: 8px;
 }
 .audio-recorder.recording {
   background-color: unset;
   box-shadow: none;
 }
-.audio-recorder .audio-recorder-mic {
+.audio-recorder-mic {
   background-color: #ff0033;
-  color: white;
   height: 100%;
   width: 100%;
+  max-width: 40px;
+  max-height: 40px;
   border-radius: 50%;
   transition: all ease 400ms;
   &:hover {
@@ -80,11 +79,14 @@ li {
 } 
 .audio-recorder.recording {
   .audio-recorder-mic {
-    background-color: #1fff2e;
-  //   &:hover {
-  //     transform: scale(1);
-  // }
+    background-color: #1acf26;
+    border-radius: 10px;
+    margin-right: 10px;
   }
+}
+img.audio-recorder-mic {
+  width: 20px;
+  height: 20px
 }
 
 .navbar {
@@ -310,6 +312,7 @@ button.record {
     button{
       padding: 15px ;
       border-radius: 30px;
+      font-size: 16px;
       border: none;
       background: transparent;
       cursor: pointer;
@@ -388,6 +391,7 @@ button.record {
         background-color: $LightBlue;
         color: white;
         font-weight: 500;
+        font-size: 16px;
         cursor: pointer;
         &:hover {
           background-color: $DarkBlue;
@@ -419,7 +423,7 @@ button.record {
       gap:6px;
       font-size: 16px;
       width: 100%;
-      border: 2px solid $Gry;
+      border: 2px solid #d7d7d7;
       border-radius: 30px;
       padding: 12px 0;
       cursor: pointer;
@@ -429,6 +433,11 @@ button.record {
       p{
         font-weight: 500;
       }
+    }
+    .wait_signin {
+      @include flex-center;
+      color : #777;
+      font-size: 18px;
     }
   }
   .signin_photo {
@@ -547,6 +556,7 @@ nav {
     @include flex-space-evenly;
     @media screen and (max-width:768px) {
       position: fixed;
+      z-index: 100;
       bottom:0;
       left: 0;
       width: 100%;
@@ -815,6 +825,7 @@ nav {
       button {
         width: 100%;
         outline: none;
+        font-size: 17px;
         border-radius: 30px;
         padding: 18px 20px;
         border: 1px solid $Gry;
@@ -957,7 +968,7 @@ nav {
     }
     .slider-container::before {
       content: '';
-      background-color: #777;
+      background-color: #d7d7d7;
       width: 99%;
       height: calc(var(--progress-bar-height) - 1px);
       display: block;
@@ -969,7 +980,7 @@ nav {
       pointer-events: none;
     }
     .progress-bar-cover {
-      background-color: rgba(44, 255, 29, 0.611);
+      background-color:  $LightBlue;
       width: 0%;
       height: var(--progress-bar-height);
       display: block;
@@ -983,7 +994,7 @@ nav {
     }
     .range {
       -webkit-appearance: none;
-      background-color: rgba(44, 255, 29, 0.611);
+      background-color:  $LightBlue;
       height: 10px;
       width: 100%;
       cursor: pointer;
@@ -1009,7 +1020,7 @@ nav {
       height: var(--thumb-height);
       box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.753);
       z-index: 3;
-      background: rgba(44, 255, 29, 0.938);
+      background:  $LightBlue;
       position: absolute;
       border-radius: 50%;
       top: 50%;
@@ -1218,6 +1229,8 @@ nav {
 
 .details {
   width: 100%;
+  min-height: calc(100vh - 62px);
+  align-items: flex-start !important;
   background-color:$BackGround;
   @include flex-center;
   >.main_uset_posts {

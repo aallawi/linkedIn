@@ -5,6 +5,7 @@ import {
   getPosts,
   getOnePost,
   getPostsByEmail,
+  userTrueOrFalse,
 } from "./action";
 import {
   createUserWithEmailAndPassword,
@@ -20,11 +21,7 @@ import {
   orderBy,
   onSnapshot,
   doc,
-  getDoc,
   deleteDoc,
-  setDoc,
-  FieldValue,
-  updateDoc,
 } from "firebase/firestore";
 import { v4 } from "uuid";
 import { toast } from "react-toastify";
@@ -32,13 +29,14 @@ import { toast } from "react-toastify";
 // sign in  [ Google ]
 export function signInWithGoogleAPI() {
   return (dispatch) => {
+    dispatch(userTrueOrFalse(true));
     signInWithPopup(auth, provider)
       .then((userInfo) => {
         const user = userInfo.user;
         dispatch(setUser(user));
-        console.log("Signed in successfully:", user);
       })
       .catch((error) => {
+        dispatch(userTrueOrFalse(false));
         const errorMessage = error.message;
         alert(errorMessage);
       });
@@ -93,6 +91,7 @@ export function getUserAuth() {
     auth.onAuthStateChanged(async (user) => {
       if (user) {
         dispatch(setUser(user));
+        dispatch(userTrueOrFalse(true));
       }
     });
   };
@@ -105,6 +104,7 @@ export function sinOutAPI() {
       .signOut()
       .then(() => {
         dispatch(setUser(null));
+        dispatch(userTrueOrFalse(false));
       })
       .catch((error) => {
         alert(error.message);
