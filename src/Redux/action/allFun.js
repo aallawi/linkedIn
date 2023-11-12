@@ -3,6 +3,7 @@ import {
   setUser,
   setLoading,
   getPosts,
+  getComments,
   getOnePost,
   getPostsByEmail,
   userTrueOrFalse,
@@ -22,6 +23,7 @@ import {
   onSnapshot,
   doc,
   deleteDoc,
+  FieldValue,
 } from "firebase/firestore";
 import { v4 } from "uuid";
 import { toast } from "react-toastify";
@@ -132,7 +134,6 @@ export function getPostsAPI() {
 
 // Show Posts By Email
 export function getPostsByEmailAPI(email) {
-  // console.log(email);
   return (dispatch) => {
     dispatch(setLoading(true));
     let all_Posts;
@@ -193,7 +194,6 @@ export function addPostAPI(Post) {
                 User_Email: Post.User.email,
                 User_Image: Post.User.photoURL,
               },
-              AllComments: [{}],
               PostDate: Post.Date,
               PostText: Post.Text,
               TextType: Post.TextType,
@@ -215,7 +215,6 @@ export function addPostAPI(Post) {
           User_Email: Post.User.email,
           User_Image: Post.User.photoURL,
         },
-        AllComments: [],
         PostDate: Post.Date,
         PostText: Post.Text,
         TextType: Post.TextType,
@@ -249,7 +248,6 @@ export function addPostAPI(Post) {
                 User_Email: Post.User.email,
                 User_Image: Post.User.photoURL,
               },
-              AllComments: [],
               PostDate: Post.Date,
               PostText: Post.Text,
               TextType: Post.TextType,
@@ -272,7 +270,6 @@ export function addPostAPI(Post) {
           User_Email: Post.User.email,
           User_Image: Post.User.photoURL,
         },
-        AllComments: [],
         PostDate: Post.Date,
         PostText: Post.Text,
         TextType: Post.TextType,
@@ -290,27 +287,36 @@ export function addPostAPI(Post) {
 
 // add Comment
 export function addCommentAPI(PostID, newComment) {
-  console.log(PostID, newComment);
+  console.log("PostID", PostID);
+  console.log("newComment", newComment);
   return (dispatch) => {
-    // const postRef = db.collection("Posts").doc(PostID);
-    // const postRef = doc(db, "Posts", PostID);
-    // postRef
-    //   .update({ Comments: 999 })
-    //   .then(() => {
-    //     console.log("تم تعديل عدد الكومنات بنجاح!");
-    //   })
-    //   .catch((error) => {
-    //     console.error("حدث خطأ: ", error);
-    //   });
-    // -------------------------------------------
-    // postRef
-    //   .update({ AllComments: FieldValue.arrayUnion(newComment) })
-    //   .then(() => {
-    //     console.log("تم إضافة التعليق بنجاح!");
-    //   })
-    //   .catch((error) => {
-    //     console.error("حدث خطأ: ", error);
-    //   });
+    const postRef = collection(db, "Posts", PostID, "AllComments");
+    addDoc(postRef, newComment)
+      .then(() => {
+        console.log("Comment added");
+      })
+      .catch((error) => {
+        console.error("Error adding comment: ", error);
+      });
+  };
+}
+
+// All Comments
+export function getCommentsAPI(PostID) {
+  return (dispatch) => {
+    dispatch(setLoading(true));
+    let all_Comments;
+    const collRef = collection(db, "Posts", PostID, "AllComments");
+    const orderedRef = query(collRef, orderBy("comment_Date", "desc"));
+    onSnapshot(orderedRef, (snapshot) => {
+      all_Comments = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      console.log(all_Comments);
+      dispatch(getComments(all_Comments));
+      dispatch(setLoading(false));
+    });
   };
 }
 

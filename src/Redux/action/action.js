@@ -2,6 +2,7 @@ import {
   SET_USER,
   SET_LOADING,
   GET_POSTS,
+  GET_COMMENTS,
   GET_ONE_POST,
   GET_POSTS_BY_EMAIL,
   SET_USER_TRUE_FALSE,
@@ -46,5 +47,12 @@ export const getOnePost = (post) => {
   return {
     type: GET_ONE_POST,
     payload: post,
+  };
+};
+
+export const getComments = (comments) => {
+  return {
+    type: GET_COMMENTS,
+    payload: comments,
   };
 };

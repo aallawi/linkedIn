@@ -1159,9 +1159,12 @@ nav {
 
 // ======================================= Create Comment ===============================
 .comment {
-  padding: 14px; 
   @include flex-space-between;
+  padding: 5px 20px; 
   gap: 10px;
+  &:last-child {
+    margin-bottom: 15px;
+  }
   img{
     width: 50px;
     height: 50px;
@@ -1190,10 +1193,20 @@ nav {
     background-color: #f2f2f2;
     padding: 12px;
     border-radius: 10px;
-    h4{
-      font-weight: 600;
-      font-size: 17px;
-      margin-bottom: 12px;
+    .name {
+      @include flex-space-between;
+      align-items: flex-start;
+      padding: 0;
+      h4{
+        font-weight: 600;
+        font-size: 17px;
+        margin-bottom: 12px;
+      }
+      span {
+        font-size: 10px;
+        color: #666666;
+        min-width: fit-content;
+      }
     }
     p{
       font-size: 16px;
